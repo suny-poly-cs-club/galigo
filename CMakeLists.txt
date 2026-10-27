@@ -7,6 +7,13 @@ set(CMAKE_CXX_STANDARD 20)
 cmake_policy(SET CMP0096 NEW)
 set(FETCHCONTENT_QUIET FALSE)
 
+#if linux
+if(UNIX AND NOT APPLE)
+#-DSDL_X11_XSCRNSAVER=OFF -DSDL_X11_XTEST=OFF
+    set(SDL_X11_XSCRNSAVER OFF BOOL)
+    set(SDL_X11_XTEST OFF BOOL)
+endif ()
+
 # raylib
 find_package(raylib QUIET)
 include(FetchContent)
