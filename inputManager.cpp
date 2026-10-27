@@ -21,7 +21,9 @@ void updateInputState() {
     if (!initialized) {
         if (!SDL_Init(SDL_INIT_JOYSTICK)) {
             std::cerr << "failed to initialize SDL! "<<SDL_GetError()<<std::endl;
+            return;
         }
+        initialized = true;
     } else {
         SDL_Event sdlEvent;
         while (SDL_PollEvent(&sdlEvent)) {
