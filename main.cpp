@@ -26,5 +26,6 @@ int main() {
     }
 
     CloseWindow();
+    controllerShutdown();
     return EXIT_SUCCESS;
 }

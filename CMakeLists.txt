@@ -9,8 +9,8 @@ set(FETCHCONTENT_QUIET FALSE)
 
 # raylib
 find_package(raylib QUIET)
+include(FetchContent)
 if (NOT raylib_FOUND)
-    include(FetchContent)
     FetchContent_Declare(
             raylib
             GIT_REPOSITORY https://github.com/raysan5/raylib.git
@@ -23,10 +23,24 @@ if (NOT raylib_FOUND)
 
     FetchContent_MakeAvailable(raylib)
 endif()
+find_package(SDL3 CONFIG QUIET)
+if(NOT SDL3_FOUND)
+    message("SDL3 not found installed on the system, downloading...")
+    set(SDL_TESTS OFF CACHE BOOL "Disable SDL test suite" FORCE)
+    # screw all that complicated install and command line args stuf, this is way easier
+    FetchContent_Declare(
+            SDL3
+            GIT_REPOSITORY https://github.com/libsdl-org/SDL
+            GIT_TAG release-3.4.14
+            GIT_PROGRESS   TRUE
+    )
+
+    FetchContent_MakeAvailable(SDL3)
+endif()
 
 
 add_executable(galigo main.cpp inputManager.cpp
         gameLogic.cpp
         gameLogic.hpp)
 
-target_link_libraries(galigo PRIVATE raylib)
+target_link_libraries(galigo PRIVATE raylib SDL3::SDL3)

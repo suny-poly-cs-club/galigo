@@ -41,3 +41,7 @@ bool controllerButtonC();
  */
 bool controllerButtonD();
 
+/**Called only when the program closes to clean up controller bits
+ * /
+ */
+void controllerShutdown();
