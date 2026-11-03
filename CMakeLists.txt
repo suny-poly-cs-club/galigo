@@ -50,13 +50,27 @@ if(NOT DIABLE_SDL)
     endif()
 endif ()
 
+# asset compiler
+add_executable(compile_resource compile_resource.cpp)
+set_property(TARGET compile_resource PROPERTY RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/temp")
+set(ASSET_OUTPUT_HEADER "${CMAKE_CURRENT_BINARY_DIR}/assets.h")
+set(ASSET_OUTPUT_SOURCE "${CMAKE_CURRENT_BINARY_DIR}/assets.c")
+file(GLOB ASSET_STUFF "${CMAKE_CURRENT_SOURCE_DIR}/assets/*")
 
-add_executable(galigo main.cpp inputManager.cpp
+add_custom_command(
+        OUTPUT ${ASSET_OUTPUT_HEADER} ${ASSET_OUTPUT_SOURCE}
+        COMMAND $<TARGET_FILE:compile_resource> ${ASSET_STUFF}
+        DEPENDS compile_resource ${ASSET_STUFF}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BIN_DIR}
+)
+
+
+add_executable(galigo main.cpp inputManager.cpp ${ASSET_OUTPUT_SOURCE}
         gameLogic.cpp
         gameLogic.hpp)
 
 if(DIABLE_SDL)
     target_compile_definitions(galigo PRIVATE DONT_USE_SDL)
 endif ()
-
+target_include_directories(galigo PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(galigo PRIVATE raylib SDL3::SDL3)
