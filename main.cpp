@@ -2,11 +2,12 @@
 #include <raylib.h>
 #include "inputManager.hpp"
 #include "gameLogic.hpp"
+#include "config.hpp"
 
 int main() {
 
     //crate the window
-    InitWindow(1200,500,"Galigo");
+    InitWindow(WIN_W,WIN_H,"Galigo");
     //set it to fullscreen mode
     ToggleBorderlessWindowed();
     SetTargetFPS(60);
