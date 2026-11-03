@@ -48,6 +48,8 @@ endif()
 
 add_executable(galigo main.cpp inputManager.cpp
         gameLogic.cpp
-        gameLogic.hpp)
+        gameLogic.hpp
+        enemy.cpp
+        snake.cpp)
 
 target_link_libraries(galigo PRIVATE raylib SDL3::SDL3)
