@@ -67,7 +67,9 @@ add_custom_command(
 
 add_executable(galigo main.cpp inputManager.cpp ${ASSET_OUTPUT_SOURCE}
         gameLogic.cpp
-        gameLogic.hpp)
+        gameLogic.hpp
+        assetLoader.cpp
+        assetLoader.hpp)
 
 if(DIABLE_SDL)
     target_compile_definitions(galigo PRIVATE DONT_USE_SDL)

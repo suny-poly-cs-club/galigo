@@ -25,6 +25,7 @@ int main() {
         EndDrawing();
     }
 
+    unload();
     CloseWindow();
     controllerShutdown();
     return EXIT_SUCCESS;

@@ -1,8 +1,12 @@
 #include "gameLogic.hpp"
 #include <raylib.h>
 #include "inputManager.hpp"
+#include "assetLoader.hpp"
+#include <assets.h>
 
+static Texture2D exampleTexture;
 void init() {
+    exampleTexture = loadCompiledTexture(".png",example_png_data, example_png_size);
 }
 
 //remember the screen resolution of the arcade cabinet is: 1280x1024
@@ -13,4 +17,8 @@ void init() {
  */
 void draw(float dt) {
     ClearBackground({0,120,255,255});
+}
+
+void unload() {
+    UnloadTexture(exampleTexture);
 }
