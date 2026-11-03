@@ -7,8 +7,10 @@ set(CMAKE_CXX_STANDARD 20)
 cmake_policy(SET CMP0096 NEW)
 set(FETCHCONTENT_QUIET FALSE)
 
+set(DIABLE_SDL OFF CACHE BOOL "Don' look for or attempt to use SDL in the code base. This will prevent the controller on the cabinet frm working.")
+
 #if linux
-if(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE AND NOT DIABLE_SDL)
 #-DSDL_X11_XSCRNSAVER=OFF -DSDL_X11_XTEST=OFF
     set(SDL_X11_XSCRNSAVER OFF CACHE BOOL "Disable X11 XScreenSaver support" FORCE)
     set(SDL_X11_XTEST OFF CACHE BOOL "Disable X11 tests" FORCE)
@@ -30,24 +32,31 @@ if (NOT raylib_FOUND)
 
     FetchContent_MakeAvailable(raylib)
 endif()
-find_package(SDL3 CONFIG QUIET)
-if(NOT SDL3_FOUND)
-    message("SDL3 not found installed on the system, downloading...")
-    set(SDL_TESTS OFF CACHE BOOL "Disable SDL test suite" FORCE)
-    # screw all that complicated install and command line args stuf, this is way easier
-    FetchContent_Declare(
-            SDL3
-            GIT_REPOSITORY https://github.com/libsdl-org/SDL
-            GIT_TAG release-3.4.14
-            GIT_PROGRESS   TRUE
-    )
 
-    FetchContent_MakeAvailable(SDL3)
-endif()
+if(NOT DIABLE_SDL)
+    find_package(SDL3 CONFIG QUIET)
+    if(NOT SDL3_FOUND)
+        message("SDL3 not found installed on the system, downloading...")
+        set(SDL_TESTS OFF CACHE BOOL "Disable SDL test suite" FORCE)
+        # screw all that complicated install and command line args stuf, this is way easier
+        FetchContent_Declare(
+                SDL3
+                GIT_REPOSITORY https://github.com/libsdl-org/SDL
+                GIT_TAG release-3.4.14
+                GIT_PROGRESS   TRUE
+        )
+
+        FetchContent_MakeAvailable(SDL3)
+    endif()
+endif ()
 
 
 add_executable(galigo main.cpp inputManager.cpp
         gameLogic.cpp
         gameLogic.hpp)
+
+if(DIABLE_SDL)
+    target_compile_definitions(galigo PRIVATE DONT_USE_SDL)
+endif ()
 
 target_link_libraries(galigo PRIVATE raylib SDL3::SDL3)

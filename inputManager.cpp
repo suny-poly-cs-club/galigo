@@ -1,8 +1,11 @@
 #include "inputManager.hpp"
 #include <iostream>
 #include <raylib.h>
+#ifndef DONT_USE_SDL
 #include  <SDL3/SDL_init.h>
 #include <SDL3/SDL_joystick.h>
+#endif
+
 
 bool stickUp = false;
 bool stickDown = false;
@@ -18,6 +21,7 @@ bool initialized = false;
 bool stickFound = false;
 
 void updateInputState() {
+#ifndef DONT_USE_SDL
     if (!initialized) {
         if (!SDL_Init(SDL_INIT_JOYSTICK)) {
             std::cerr << "failed to initialize SDL! "<<SDL_GetError()<<std::endl;
@@ -25,6 +29,7 @@ void updateInputState() {
         }
         initialized = true;
     } else {
+
         SDL_Event sdlEvent;
         while (SDL_PollEvent(&sdlEvent)) {
             switch (sdlEvent.type) {
@@ -105,6 +110,7 @@ void updateInputState() {
             }
         }
     }
+#endif
 
     // controller controls
     if (IsGamepadAvailable(0)) {
