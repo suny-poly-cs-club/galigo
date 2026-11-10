@@ -6,10 +6,12 @@
 #include <assets.h>
 
 Texture2D bgTexture{};
+Texture2D playerTexture{};
 
 static Texture2D exampleTexture;
 void init() {
     exampleTexture = loadCompiledTexture(".png",example_png_data, example_png_size);
+    playerTexture = loadCompiledTexture(".png",Single_X_Wing_png_data, Single_X_Wing_png_size);
     int area = BG_W * BG_H;
     Color* pixels = (Color*)MemAlloc(area * sizeof(Color));
     for (int i = 0; i < area; i++) {
@@ -30,11 +32,13 @@ void init() {
     UnloadImage(img);
     //let the source rect run off the edge of the texture and wrap around
     SetTextureWrap(bgTexture, TEXTURE_WRAP_REPEAT);
+
+
 }
 
 //remember the screen resolution of the arcade cabinet is: 1280x1024
 //the window will fill your screen, but we want to ensure that gameplay fits the target screen
-
+float n = 0;
 /**Draw the next frame
  * @param dt The number of seconds the last frame took to render
  */
@@ -46,9 +50,11 @@ void draw(float dt) {
     bgScroll -= (int)bgScroll; //keep in [0,1) so precision never degrades
     float srcX = bgScroll * BG_W;
     DrawTexturePro(bgTexture, {srcX, 0, BG_W, BG_H}, {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}, {0, 0}, 0.0, WHITE);
+    DrawTexturePro(playerTexture, {0, 0, (float)playerTexture.width, (float)playerTexture.height}, {100, 100, 50, 50}, {0, 0}, 90.0, WHITE);
 }
 
 void unload() {
     UnloadTexture(exampleTexture);
     UnloadTexture(bgTexture);
+    UnloadTexture(playerTexture);
 }
