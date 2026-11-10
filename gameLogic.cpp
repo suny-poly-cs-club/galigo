@@ -4,6 +4,8 @@
 #include "config.hpp"
 #include "assetLoader.hpp"
 #include <assets.h>
+#include "enemy.hpp"
+#include "snake.hpp"
 
 Texture2D bgTexture{};
 
@@ -30,6 +32,8 @@ void init() {
     UnloadImage(img);
     //let the source rect run off the edge of the texture and wrap around
     SetTextureWrap(bgTexture, TEXTURE_WRAP_REPEAT);
+
+    snakeTexture = loadCompiledTexture(".png",vinomoose_png_data,vinomoose_png_size);
 }
 
 //remember the screen resolution of the arcade cabinet is: 1280x1024
@@ -46,9 +50,18 @@ void draw(float dt) {
     bgScroll -= (int)bgScroll; //keep in [0,1) so precision never degrades
     float srcX = bgScroll * BG_W;
     DrawTexturePro(bgTexture, {srcX, 0, BG_W, BG_H}, {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}, {0, 0}, 0.0, WHITE);
+
+
+    //draw the enemies
+    drawEnemies();
+
+
+    //update the enemies
+    updateEnemies();
 }
 
 void unload() {
     UnloadTexture(exampleTexture);
     UnloadTexture(bgTexture);
+    UnloadTexture(snakeTexture);
 }

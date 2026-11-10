@@ -2,6 +2,8 @@
 
 #include "raylib.h"
 
+extern Texture2D snakeTexture;
+
 struct Snake {
     Rectangle body;
     float startX;
