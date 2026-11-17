@@ -72,7 +72,9 @@ add_executable(galigo main.cpp inputManager.cpp ${ASSET_OUTPUT_SOURCE}
         assetLoader.hpp
         gameLogic.hpp
         enemy.cpp
-        snake.cpp)
+        snake.cpp
+        player.cpp
+        player.h)
 
 if(DIABLE_SDL)
     target_compile_definitions(galigo PRIVATE DONT_USE_SDL)
