@@ -10,8 +10,8 @@ struct Snake {
     float startY;
     double startT;
 
-    static constexpr float W = 25.0;
-    static constexpr float H = 10.0;
+    static constexpr float W = 100.0;
+    static constexpr float H = 100.0;
 
     Snake(float x, float y) {
         body = {x, y, W, H};
