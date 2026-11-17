@@ -7,5 +7,5 @@ void Snake::update() {
 }
 
 void Snake::draw() {
-    // TODO
+    DrawTexturePro(snakeTexture,{0,0,static_cast<float>(snakeTexture.width)/3,static_cast<float>(snakeTexture.height)},body, {0,0},0, WHITE);
 }

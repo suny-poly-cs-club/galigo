@@ -36,6 +36,8 @@ void init() {
     SetTextureWrap(bgTexture, TEXTURE_WRAP_REPEAT);
 
     snakeTexture = loadCompiledTexture(".png",vinomoose_png_data,vinomoose_png_size);
+
+    enemies.emplace_back(Snake(400,100));
 }
 
 //remember the screen resolution of the arcade cabinet is: 1280x1024
