@@ -11,7 +11,9 @@ class Player {
 
 public:
     Player();
-    void Update(float deltaTime); //need something for input too, figure out later
+
+    void Update(float deltaTime);
+
     void Draw() const;
 
     // Getter so bullets/enemies know where the player is

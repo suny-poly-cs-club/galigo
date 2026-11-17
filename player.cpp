@@ -1,6 +1,7 @@
 #include "player.h"
 #include "raymath.h"
 #include <algorithm>
+#include "inputManager.hpp"
 
 Player::Player()
 {
@@ -15,9 +16,25 @@ void Player::Update(float deltaT)
     Vector2 direction = { 0.0f, 0.0f };
 
     // if directionInput direction.x/y -= += 1.0f;
+    if (controllerStickUp()){
+        direction.y -= 1.0f;
+    }
+    if (controllerStickDown()){
+        direction.y += 1.0f;
+    }
+    if (controllerStickLeft()){
+        direction.x -= 1.0f;
+    }
+    if (controllerStickRight()){
+        direction.x += 1.0f;
+    }
 
     //prevent faster diagonal movement
+    if (direction.x != 0.0f || direction.y != 0.0f) {
+        direction = Vector2Normalize(direction);
+    }
 
+    //movement
     position.x += direction.x * speed * deltaT;
     position.y += direction.y * speed * deltaT;
 
